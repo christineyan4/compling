@@ -40,12 +40,14 @@ def hash_words(words):
     return grams
 
 def build_sorted_dicts(grams):
+    # building triple-layer nested dict
+    # first layer keyed by size, second keyed by length
     nested_grams = {}
 
-    # building nested dicts, first by size, then by length
     for key in grams:
         size = len(grams[key])
         length = len(key)
+
         if size > 1:
             if size in nested_grams:
                 length_dict = nested_grams[size]
@@ -61,17 +63,19 @@ def build_sorted_dicts(grams):
     for size in nested_grams:
         length_dict = nested_grams[size]
         nested_grams[size] = dict(sorted(length_dict.items()))
-    sorted_grams = dict(sorted(nested_grams.items()))
 
+    sorted_grams = dict(sorted(nested_grams.items()))
     return sorted_grams
 
 def print_table(sorted_grams):
     for size in sorted_grams:
         print("Anagrams of size " + str(size)) 
         length_dict = sorted_grams[size]
+
         for length in length_dict:
             print("Anagrams of length " + str(length))
             grams = length_dict[length]
+
             for key in grams:
                 print_string = ""
                 for gram in grams[key]:
@@ -86,7 +90,7 @@ if __name__ == '__main__':
     # add unique words to anagram dict
     grams = hash_words(words)
 
-    # build nested dicts sorted by size, then length 
+    # build nested dicts sorted by size and length 
     sorted_grams = build_sorted_dicts(grams)
 
     # output
